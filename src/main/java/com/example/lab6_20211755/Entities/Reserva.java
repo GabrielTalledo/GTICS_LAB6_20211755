@@ -29,9 +29,9 @@ public class Reserva {
 
     @Column(name = "fechaInicio")
     @FutureOrPresent(message = "La fecha debe ser futura o actual")
-    private LocalDateTime fechaInicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "fechaFin")
     @FutureOrPresent(message = "La fecha debe ser futura o actual")
-    private LocalDateTime fechaFin;
+    private LocalDate fechaFin;
 }
