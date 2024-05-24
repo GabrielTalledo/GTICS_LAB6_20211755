@@ -71,18 +71,15 @@ public class MesaController {
                 attr.addFlashAttribute("msg", "Mesa añadida exitosamente");
                 mesaRepository.save(mesa);
             } else {
-                assert dispositivoAux != null;
-                if(dispositivoAux.getCantidadDisponible() > dispositivo.getCantidad() && dispositivoAux.getCantidad()!=dispositivoAux.getCantidadDisponible()){
-                    model.addAttribute("msgError","No puede modificar la cantidad total a un valor menor que la cantidad disponible actual.");
-                    return "dispositivo/form";
+                assert mesaAux != null;
+                if(mesaAux.getDisponibles() > mesa.getDisponibles()){
+                    model.addAttribute("msgError","No puede modificar la cantidad disponible a un valor menor que la cantidad disponible actual.");
+                    return "mesa/form";
                 }
-                dispositivo.setCantidadDisponible(dispositivoAux.getCantidadDisponible());
-                diferencia = dispositivo.getCantidad() - dispositivoAux.getCantidad();
                 attr.addFlashAttribute("msg", "Mesa actualizada exitosamente");
-                dispositivoRepository.save(dispositivo);
-                dispositivoRepository.actualizarCantidadDisponible(dispositivo.getIdDispositivo(),diferencia);
+                mesaRepository.save(mesa);
             }
-            return "redirect:/dispositivo/list";
+            return "redirect:/mesa/list";
         }
     }
 
@@ -90,13 +87,17 @@ public class MesaController {
     public String borrarDispositivo(@RequestParam("id") int id,
                                     RedirectAttributes attr) {
 
-        Optional<Dispositivo> optDispositivo = dispositivoRepository.findById(id);
+        Optional<Mesa> optMesa = mesaRepository.findById(id);
 
-        if (optDispositivo.isPresent()) {
-            attr.addFlashAttribute("msg", "Dispositivo eliminado exitosamente");
-            dispositivoRepository.deleteById(id);
+        if (optMesa.isPresent()) {
+            if(reservaRepository.encontrarReservaPorIdMesa(id).isEmpty()){
+                attr.addFlashAttribute("msg", "Dispositivo eliminado exitosamente");
+                mesaRepository.deleteById(id);
+            }else{
+                attr.addFlashAttribute("msg", "No puede eliminar una mesa con reservas activas");
+            }
         }
-        return "redirect:/dispositivo/list";
+        return "redirect:/mesa/list";
     }
 
 }

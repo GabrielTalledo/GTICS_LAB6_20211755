@@ -15,10 +15,10 @@
     <nav th:replace="~{fragments/navbar.html :: navbar(active = 'Dispositivos')}"></nav>
     <div class="row mb-4">
         <div class="col-md-6 offset-md-3">
-            <h2 th:text="${dispositivo.getIdDispositivo() == 0? 'Agregar Dispositivo' : 'Editar Dispositivo'}"></h2>
+            <h2 th:text="${mesa.getIdMesa() == 0? 'Agregar Dispositivo' : 'Editar Dispositivo'}"></h2>
             <hr/>
-            <form method="post" th:action="@{'/dispositivo/save'}" th:object="${dispositivo}">
-                <input th:field="*{idDispositivo}" type="hidden"/>
+            <form method="post" th:action="@{'/mesa/save'}" th:object="${mesa}">
+                <input th:field="*{idMesa}" type="hidden"/>
                 <div class="mb-3">
                     <label class="form-label">Nombre</label>
                     <input th:field="*{nombre}" type="text" class="form-control"/>
@@ -27,17 +27,31 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Cantidad</label>
-                    <input th:field="*{cantidad}" type="number" class="form-control"/>
-                    <div class="text-danger" th:if="${#fields.hasErrors('cantidad')}"
-                         th:errors="*{cantidad}"></div>
+                    <label class="form-label">Capacidad</label>
+                    <input th:field="*{capacidad}" type="number" class="form-control"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('capacidad')}"
+                         th:errors="*{capacidad}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ubicacion</label>
+                    <input th:field="*{ubicacion}" type="text" class="form-control"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('ubicacion')}"
+                         th:errors="*{ubicacion}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Disponibles</label>
+                    <input th:field="*{disponibles}" type="number" class="form-control"/>
+                    <div class="text-danger" th:if="${#fields.hasErrors('disponibles')}"
+                         th:errors="*{disponibles}"></div>
                     <div class="text-danger" th:if="${msgError != null}"
                          th:text="${msgError}"></div>
                 </div>
 
 
-                <a th:href="@{'/dispositivo/list'}" class="btn btn-danger">Cancelar</a>
-                <button type="submit" class="btn btn-primary" th:text="${dispositivo.getIdDispositivo() == 0? 'Agregar' : 'Actualizar'}"></button>
+                <a th:href="@{'/mesa/list'}" class="btn btn-danger">Cancelar</a>
+                <button type="submit" class="btn btn-primary" th:text="${mesa.getIdMesa() == 0? 'Agregar' : 'Actualizar'}"></button>
             </form>
         </div>
     </div>
